@@ -20,6 +20,9 @@ public class Jugador : MonoBehaviour
     SpriteRenderer sprite;
     float movimiento;
     bool saltoPendiente;
+    // Conserva el pulso de salto hasta el siguiente paso de fisica.
+    float ultimoSaltoSolicitado = float.NegativeInfinity;
+    [SerializeField, Min(0f)] float toleranciaSalto = 0.12f;
     public bool EstaEnPiso { get; private set; }
     int cantAbejas;
 
@@ -54,7 +57,8 @@ public class Jugador : MonoBehaviour
         }
 #endif
         movimiento = eje;
-        if (salto && EstaEnPiso) saltoPendiente = true;
+        if (salto) ultimoSaltoSolicitado = Time.time;
+        saltoPendiente = Time.time - ultimoSaltoSolicitado <= toleranciaSalto;
         if (movimiento != 0) sprite.flipX = movimiento < 0;
         animator.SetFloat("Velocidad", Mathf.Abs(movimiento));
         animator.SetFloat("VelocidadVertical", rb.linearVelocity.y);
@@ -70,8 +74,9 @@ public class Jugador : MonoBehaviour
         {
             vertical = alturaSalto;
             EstaEnPiso = false;
+            ultimoSaltoSolicitado = float.NegativeInfinity;
         }
-        saltoPendiente = false;
+        saltoPendiente = Time.time - ultimoSaltoSolicitado <= toleranciaSalto;
         // La entrada se lee en Update; la velocidad fisica se aplica en FixedUpdate.
         rb.linearVelocity = new Vector2(movimiento * velocidad, vertical);
     }
