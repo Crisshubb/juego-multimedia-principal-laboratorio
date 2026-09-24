@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 #endif
 
 [RequireComponent(typeof(Rigidbody2D), typeof(CapsuleCollider2D), typeof(Animator))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class Jugador : MonoBehaviour
 {
     public float velocidad = 2f;
@@ -25,6 +26,7 @@ public class Jugador : MonoBehaviour
     [SerializeField, Min(0f)] float toleranciaSalto = 0.12f;
     public bool EstaEnPiso { get; private set; }
     int cantAbejas;
+    bool reiniciando;
 
     void Awake()
     {
@@ -83,6 +85,7 @@ public class Jugador : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if (reiniciando) return;
         if (collision.CompareTag("abejita"))
         {
             Destroy(collision.gameObject);
@@ -115,8 +118,9 @@ public class Jugador : MonoBehaviour
         if (textoAbejas != null) textoAbejas.text = cantAbejas.ToString();
     }
 
-    static void ReiniciarNivel()
+    void ReiniciarNivel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        reiniciando = true;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().path);
     }
 }
