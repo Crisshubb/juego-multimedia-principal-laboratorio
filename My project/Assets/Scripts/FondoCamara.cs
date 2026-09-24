@@ -7,9 +7,16 @@ public class FondoCamara : MonoBehaviour
 {
     public Camera camara;
     SpriteRenderer fondo;
-    void Awake() { fondo = GetComponent<SpriteRenderer>(); }
+    void Awake()
+    {
+        fondo = GetComponent<SpriteRenderer>();
+        if (camara == null) camara = Camera.main;
+    }
+
     void LateUpdate()
     {
+        // Tambien cubre una camara principal activada despues de este fondo.
+        if (camara == null) camara = Camera.main;
         if (camara == null || fondo.sprite == null) return;
         var bounds = fondo.sprite.bounds;
         float height = camara.orthographicSize * 2;
