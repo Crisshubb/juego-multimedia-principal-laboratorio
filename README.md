@@ -14,6 +14,8 @@ Proyecto de Alexcito basado en el documento **Creando un videojuego 2D con Unity
 2. Escenario, físicas, movimiento, salto, animaciones y cámara.
 3. Recolección, marcador, peligros, reinicio y caracol.
 
+El proyecto se limita a escritorio: A/D o flechas para moverse y espacio para saltar. Las abejas aumentan el marcador; tocar el jabalí, el caracol por un costado o caer fuera del nivel reinicia la escena. Se puede derrotar al caracol al caer sobre él.
+
 Los commits se agrupan por avances importantes y se verifican en Unity.
 
 ## Recursos
