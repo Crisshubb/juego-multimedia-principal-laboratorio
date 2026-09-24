@@ -88,6 +88,10 @@ public class Jugador : MonoBehaviour
         if (reiniciando) return;
         if (collision.CompareTag("abejita"))
         {
+            // Destroy se aplica al final del frame; desactivar el collider evita
+            // sumar dos veces si llegan otros eventos de fisica entretanto.
+            if (!collision.enabled) return;
+            collision.enabled = false;
             Destroy(collision.gameObject);
             cantAbejas++;
             ActualizarMarcador();
